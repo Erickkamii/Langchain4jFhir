@@ -1,4 +1,4 @@
-package com.erickkamii.service;
+package com.erickkamii.patient.service;
 
 import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;

@@ -67,6 +67,42 @@
             <version>1.18.36</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-hibernate-orm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.intersystems</groupId>
+            <artifactId>intersystems-jdbc</artifactId>
+            <version>3.7.1</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/lib/intersystems-jdbc-3.7.1.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-smallrye-reactive-messaging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-smallrye-reactive-messaging-kafka</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-resteasy-reactive</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-rest-client-reactive</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-rest-client-reactive-jackson</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.yurimarx</groupId>
+            <artifactId>hibernateirisdialect</artifactId>
+            <version>1.1.1</version>
+        </dependency>
     </dependencies>
 
     <build>

@@ -1,4 +1,4 @@
-package com.erickkamii.model;
+package com.erickkamii.patient.model;
 
 import lombok.Data;
 

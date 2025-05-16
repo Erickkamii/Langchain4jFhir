@@ -1,4 +1,4 @@
-package com.erickkamii.model;
+package com.erickkamii.patient.model;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.*;
@@ -21,7 +21,13 @@ public class Patient extends PanacheEntityBase {
 
     @Column(nullable = false)
     private String reference;
-
+    private boolean smokes;
+    private boolean drinks;
+    private Integer physicalActivitiesPerWeek;
+    private String bloodPressure;
+    private Double weight;
     @OneToMany(cascade = CascadeType.PERSIST)
-    private List<Observation> observationList = new ArrayList<>();
+    private List<Observation> observationsList = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.PERSIST)
+    private List<Medication> medicationList = new ArrayList<>();
 }

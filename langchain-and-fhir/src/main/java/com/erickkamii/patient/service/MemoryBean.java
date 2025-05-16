@@ -1,4 +1,4 @@
-package com.erickkamii.service;
+package com.erickkamii.patient.service;
 
 import dev.langchain4j.memory.ChatMemory;
 import dev.langchain4j.memory.chat.ChatMemoryProvider;
