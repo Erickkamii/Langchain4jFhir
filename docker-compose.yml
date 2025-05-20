@@ -1,0 +1,16 @@
+version: "2.2"
+services:
+  iris:
+    image: intersystemsdc/pexdemo:latest
+    command: --check-caps false
+    restart: always
+    cpuset: "0-1"
+    build:
+      context: iris
+      dockerfile: Dockerfile
+      args:
+        IRIS_IMAGE: intersystemsdc/irishealth-community:preview
+    ports:
+      - 52774:52773
+      - 1973:1972
+
