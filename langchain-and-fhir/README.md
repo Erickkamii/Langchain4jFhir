@@ -9,6 +9,8 @@ If you want to learn more about Quarkus, please visit its website: <https://quar
 You can run your application in dev mode that enables live coding using:
 
 ```shell script
+./mvnw clean
+./mvnw install:install-file -Dfile="src/main/resources/lib/intersystems-jdbc-3.7.1.jar" -DgroupId="com.intersystems" -DartifactId="intersystems-jdbc" -Dversion="3.7.1" -Dpackaging="jar"
 ./mvnw quarkus:dev
 ```
 
@@ -49,18 +51,31 @@ Or, if you don't have GraalVM installed, you can run the native executable build
 ./mvnw package -Dnative -Dquarkus.native.container-build=true
 ```
 
-You can then execute your native executable with: `./target/langchain-and-fhir-1.0-SNAPSHOT-runner`
+You can then execute your native executable with: `./target/langchain-and-fhir-1.0.0-SNAPSHOT-runner`
 
 If you want to learn more about building native executables, please consult <https://quarkus.io/guides/maven-tooling>.
 
 ## Related Guides
 
-- REST Client ([guide](https://quarkus.io/guides/rest-client)): Call REST services
+- REST ([guide](https://quarkus.io/guides/rest)): A Jakarta REST implementation utilizing build time processing and Vert.x. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it.
+- REST Jackson ([guide](https://quarkus.io/guides/rest#json-serialisation)): Jackson serialization support for Quarkus REST. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it
+- Hibernate ORM with Panache ([guide](https://quarkus.io/guides/hibernate-orm-panache)): Simplify your persistence code for Hibernate ORM via the active record or the repository pattern
+- LangChain4j Ollama ([guide](https://docs.quarkiverse.io/quarkus-langchain4j/dev/index.html)): Provides the basic integration of Ollama with LangChain4j
+- JDBC Driver - PostgreSQL ([guide](https://quarkus.io/guides/datasource)): Connect to the PostgreSQL database via JDBC
 
 ## Provided Code
 
-### REST Client
+### Hibernate ORM
 
-Invoke different services through REST with JSON
+Create your first JPA entity
 
-[Related guide section...](https://quarkus.io/guides/rest-client)
+[Related guide section...](https://quarkus.io/guides/hibernate-orm)
+
+[Related Hibernate with Panache section...](https://quarkus.io/guides/hibernate-orm-panache)
+
+
+### REST
+
+Easily start your REST Web Services
+
+[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
