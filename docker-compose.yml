@@ -1,7 +1,7 @@
 version: "2.2"
 services:
   iris:
-    image: intersystemsdc/pexdemo:latest
+    image: intersystemsdc/irishealth-community:preview
     command: --check-caps false
     restart: always
     cpuset: "0-1"

@@ -1,26 +1,17 @@
-ARG IRIS_IMAGE
-FROM ${IRIS_IMAGE}
+ARG IMAGE=intersystemsdc/irishealth-community:latest
+FROM $IMAGE
+
+USER root
+
+RUN mkdir -p /opt/irisapp && chown ${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} /opt/irisapp
+WORKDIR /opt/irisapp
+
+COPY --chown=$ISC_PACKAGE_MGRUSER:$ISC_PACKAGE_IRISGROUP iris.script /
+COPY --chown=$ISC_PACKAGE_MGRUSER:$ISC_PACKAGE_IRISGROUP src /tmp
+COPY --chown=$ISC_PACKAGE_MGRUSER:$ISC_PACKAGE_IRISGROUP /data fhirdata
 
 USER ${ISC_PACKAGE_MGRUSER}
 
-COPY --chown=$ISC_PACKAGE_MGRUSER:$ISC_PACKAGE_IRISGROUP irissession.sh /
-COPY --chown=$ISC_PACKAGE_MGRUSER:$ISC_PACKAGE_IRISGROUP src /tmp
-
-COPY /data fhirdata
-
-
-RUN chmod +x /irissession.sh
-
-SHELL ["/irissession.sh"]
-
-RUN \
-  zn "USER" \
-  do $SYSTEM.OBJ.LoadDir("/tmp", "ck", , 1) \
-  do ##class(%File).RemoveDirectoryTree("/tmp") \
-  set production = "dc.Production" \
-  set ^Ens.Configuration("csp","LastProduction") = production \
-  for user = "UnknownUser", "Admin", "SuperUser", "_SYSTEM" {set ^EnsPortal.Settings(user, "PreferredCategory", production)="Kafka"} \
-  do ##class(Ens.Director).SetAutoStart(production)
-
-# bringing the standard shell back
-SHELL ["/bin/bash", "-c"]
+RUN iris start IRIS \
+    && iris session IRIS < /iris.script \
+    && iris stop iris quietly
