@@ -20,6 +20,6 @@ public class PatientResource {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public List<String> getPatientNameByKey(@QueryParam("key") String key) {
-        return patientRepository.findMedicationTextByPatient(key);
+        return patientRepository.findConditionsByPatient(key);
     }
 }

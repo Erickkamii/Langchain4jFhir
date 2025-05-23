@@ -1,6 +1,5 @@
 package org.iris.patient.repository;
 
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
+import net.bytebuddy.implementation.bind.annotation.Super;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
 @ApplicationScoped
@@ -27,26 +27,46 @@ public class PatientRepository implements PanacheRepository<Patient> {
         Patient patient = find("key", key).firstResult();
         return patient != null ? patient.name : null;
     }
-    
+
     @SuppressWarnings("unchecked")
     public List<String> findMedicationTextByPatient(String patientKey) {
         List<String> resourceJsonList = em.createNativeQuery("""
-                SELECT ResourceString
-                FROM HSFHIR_X0001_R.Rsrc
-                WHERE Key IN (
-                    SELECT Key 
-                    FROM HSFHIR_X0001_S.MedicationRequest 
-                    WHERE patient = :patientKey
-                )
-            """)
-            .setParameter("patientKey", patientKey)
-            .getResultList();
+                    SELECT ResourceString
+                    FROM HSFHIR_X0001_R.Rsrc
+                    WHERE Key IN (
+                        SELECT Key
+                        FROM HSFHIR_X0001_S.MedicationRequest
+                        WHERE patient = :patientKey
+                    )
+                """)
+                .setParameter("patientKey", patientKey)
+                .getResultList();
 
         return resourceJsonList.stream()
-            .map(this::extractMedicationText)
-            .filter(text -> text != null && !text.isBlank())
-            .distinct()
-            .toList();
+                .map(this::extractMedicationText)
+                .filter(text -> text != null && !text.isBlank())
+                .distinct()
+                .toList();
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<String> findConditionsByPatient(String patientKey) {
+        List<String> resourceJsonList = em.createNativeQuery("""
+                SELECT ResourceString
+                FROM HSFHIR_X0001_R.Rsrc WHERE Key IN (SELECT
+                Key
+                FROM HSFHIR_X0001_S.Condition
+                WHERE Patient =:patientKey
+                )
+                """)
+                .setParameter("patientKey", patientKey)
+                .getResultList();
+
+        return resourceJsonList.stream()
+                .map(this::extractConditionText)
+                .filter(text -> text != null && !text.isBlank())
+                .distinct()
+                .toList();
     }
 
     private String extractMedicationText(String json) {
@@ -58,5 +78,23 @@ public class PatientRepository implements PanacheRepository<Patient> {
         }
     }
 
+    private String extractConditionText(String json) {
+        try {
+            JsonNode node = mapper.readTree(json);
+
+            String verificationStatus = node.at("/verificationStatus/coding/0/code").asText();
+            if (!"confirmed".equals(verificationStatus)) {
+                return null;
+            }
+
+            String clinicalStatus = node.at("/clinicalStatus/coding/0/code").asText();
+            if (!"active".equals(clinicalStatus) && !"resolved".equals(clinicalStatus)) {
+                return null;
+            }
+            return node.at("/code/text").asText();
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
 }
