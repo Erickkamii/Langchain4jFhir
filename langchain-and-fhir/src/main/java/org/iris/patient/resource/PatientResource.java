@@ -2,6 +2,7 @@ package org.iris.patient.resource;
 
 import java.util.List;
 
+import org.iris.patient.dto.PatientInfoDTO;
 import org.iris.patient.service.PatientService;
 import org.iris.patient.service.ai.PatientAIService;
 
@@ -46,8 +47,8 @@ public class PatientResource {
 
     @GET
     @Path("/info")
-    @Produces(MediaType.TEXT_PLAIN)
-    public Object searchPatientInfo(@QueryParam("key") String key) {
+    @Produces(MediaType.APPLICATION_JSON)
+    public PatientInfoDTO searchPatientInfo(@QueryParam("key") String key) {
         return patientService.patientGetInfo(key);
     }
 }
