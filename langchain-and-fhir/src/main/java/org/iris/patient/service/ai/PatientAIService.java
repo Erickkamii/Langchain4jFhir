@@ -14,13 +14,12 @@ public interface PatientAIService {
         You are a clinical medical assistant specialized in electronic health records (EHR).
         You will receive a patient ID.
         Using the tools available to you (e.g., PatientRepository), fetch the patient's clinical data,
-        including conditions, procedures, encounters, allergies, and medications.
-
-        Then, summarize the patient's clinical history in a concise and structured format,
-        highlighting relevant past diagnoses, treatments, and any chronic conditions.
+        1. Use the tool `findConditionsByPatient` 'obtain clinical Conditions history' to list clinical Conditions.
+        Then, summarize the patient's clinical Conditions history 
+        without JSONS on response. 
     """)
-    @UserMessage("Summarize the clinical history for patient ID: {{patientKey}}")
-    String summarizeHistory(@V("patientKey") String patientKey);
+    @UserMessage("Summarize the clinical Conditions history for patient ID: {{patientKey}}")
+    String conditionsHistory(@V("patientKey") String patientKey);
     
 
     @SystemMessage("""
@@ -29,6 +28,7 @@ public interface PatientAIService {
     You will:
     1. Use the tool `findMedicationTextByPatient` to list all medications the patient is currently using.
     2. Output a clinical risk analysis to aid decision making.
+    without JSONS on response.
     """)
     @UserMessage("""
     Analyze the medication safety risks for the patient with ID: {{patientKey}}.
@@ -36,10 +36,21 @@ public interface PatientAIService {
     """)
     String analyzeMedicationRisks(@V("patientKey") String patientKey);
 
-    
-    @SystemMessage("Answer concisely.")
-    @UserMessage("{{question}}")
-    String answerQuestion(@V("question") String question);
+    @SystemMessage("""
+        You are a helpful and knowledgeable clinical assistant AI. 
+        You must answer user questions based only on the provided clinical data of the patient.
+        Use the available tools to retrieve relevant patient information.
+        Answer concisely and clearly.
+    """)
+    @UserMessage("""
+        Patient ID: {patientKey}
+
+        Question: {question}
+
+        Use tools to gather the patient's clinical data (e.g. previous diagnoses, medications, allergies, exams, etc.).
+        Based only on these facts, answer the question.
+    """)
+    String answerQuestion(@V("patientKey") String patientKey, @V("question") String question);
 
 
 }

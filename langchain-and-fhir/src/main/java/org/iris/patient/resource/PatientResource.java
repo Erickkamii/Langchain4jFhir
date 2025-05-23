@@ -25,4 +25,19 @@ public class PatientResource {
 
         return patientAIService.analyzeMedicationRisks(key);
     }
+
+    @GET
+    @Path("/ia/conditions-history")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String conditionsHistory(@QueryParam("key") String key) {
+
+        return patientAIService.conditionsHistory(key);
+    }
+
+    @GET
+    @Path("/ia/answer-question")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String answerPatientQuestion(@QueryParam("key") String key, @QueryParam("question") String question) {
+        return patientAIService.answerQuestion(key, question);
+    }
 }

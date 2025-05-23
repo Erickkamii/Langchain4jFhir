@@ -43,7 +43,8 @@ public class PatientRepository implements PanacheRepository<Patient> {
                 .distinct()
                 .toList();
     }
-
+    
+    @Tool("obtain clinical Conditions history")
     @SuppressWarnings("unchecked")
     public List<String> findConditionsByPatient(String patientKey) {
         List<String> resourceJsonList = em.createNativeQuery("""
