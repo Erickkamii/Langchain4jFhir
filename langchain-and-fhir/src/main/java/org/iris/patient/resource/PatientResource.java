@@ -1,5 +1,7 @@
 package org.iris.patient.resource;
 
+import java.util.List;
+
 import org.iris.patient.repository.PatientRepository;
 
 import jakarta.inject.Inject;
@@ -16,7 +18,7 @@ public class PatientResource {
     PatientRepository patientRepository;
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public String getPatientNameByKey(@QueryParam("key") String key) {
-        return patientRepository.findNameByKey(key);
+    public List<String> getPatientNameByKey(@QueryParam("key") String key) {
+        return patientRepository.findMedicationTextByPatient(key);
     }
 }

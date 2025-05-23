@@ -2,8 +2,13 @@ package org.iris.patient.repository;
 
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.iris.patient.model.Patient;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
@@ -14,26 +19,43 @@ public class PatientRepository implements PanacheRepository<Patient> {
 
     @Inject
     EntityManager em;
-    
+
+    @Inject
+    ObjectMapper mapper;
+
     public String findNameByKey(String key) {
         Patient patient = find("key", key).firstResult();
         return patient != null ? patient.name : null;
     }
     
-    public List<String[]> listMedicationRequestDisplay(String key) {
-        List<Object[]> result = em.createNativeQuery("""
-                SELECT ID1, Key 
-                FROM HSFHIR_X0001_S.MedicationRequest 
-                WHERE Key = :key
+    @SuppressWarnings("unchecked")
+    public List<String> findMedicationTextByPatient(String patientKey) {
+        List<String> resourceJsonList = em.createNativeQuery("""
+                SELECT ResourceString
+                FROM HSFHIR_X0001_R.Rsrc
+                WHERE Key IN (
+                    SELECT Key 
+                    FROM HSFHIR_X0001_S.MedicationRequest 
+                    WHERE patient = :patientKey
+                )
             """)
-            .setParameter("key", key)
+            .setParameter("patientKey", patientKey)
             .getResultList();
 
-        List<String[]> converted = result.stream()
-            .map(row -> new String[] { row[0].toString(), row[1].toString() })
+        return resourceJsonList.stream()
+            .map(this::extractMedicationText)
+            .filter(text -> text != null && !text.isBlank())
+            .distinct()
             .toList();
+    }
 
-        return converted;
+    private String extractMedicationText(String json) {
+        try {
+            JsonNode node = mapper.readTree(json);
+            return node.at("/medicationCodeableConcept/text").asText();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 
