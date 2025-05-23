@@ -20,7 +20,7 @@ public class PatientRepository implements PanacheRepository<Patient> {
         return patient != null ? patient.name : null;
     }
     
-    public List<String[]> findMedicationRequestData(String key) {
+    public List<String[]> listMedicationRequestDisplay(String key) {
         List<Object[]> result = em.createNativeQuery("""
                 SELECT ID1, Key 
                 FROM HSFHIR_X0001_S.MedicationRequest 
