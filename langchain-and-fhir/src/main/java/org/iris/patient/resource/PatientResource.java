@@ -2,7 +2,7 @@ package org.iris.patient.resource;
 
 import java.util.List;
 
-import org.iris.patient.repository.PatientRepository;
+import org.iris.patient.service.PatientService;
 import org.iris.patient.service.ai.PatientAIService;
 
 import jakarta.inject.Inject;
@@ -17,6 +17,9 @@ public class PatientResource {
 
     @Inject
     PatientAIService patientAIService;
+
+    @Inject
+    PatientService patientService;
 
     @GET
     @Path("/ia/analyze-medication")
@@ -39,5 +42,12 @@ public class PatientResource {
     @Produces(MediaType.TEXT_PLAIN)
     public String answerPatientQuestion(@QueryParam("key") String key, @QueryParam("question") String question) {
         return patientAIService.answerQuestion(key, question);
+    }
+
+    @GET
+    @Path("/info")
+    @Produces(MediaType.TEXT_PLAIN)
+    public Object searchPatientInfo(@QueryParam("key") String key) {
+        return patientService.patientGetInfo(key);
     }
 }
