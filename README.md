@@ -18,6 +18,8 @@ This is a Quarkus-based backend that uses LangChain4j and LLaMA 3.2 (1B) via Oll
 
 The system fetches the patient’s anamnesis using `PatientRepository`, parses the relevant fields (allergies, medications, and medical conditions), and sends them to `PatientAIService`. The AI then generates a natural language summary — clear and readable for non-technical users — without exposing raw JSON.
 
+![alt text](/img/endpoints.png)
+
 ## Features
 
 All endpoints use the LLM to process and respond based on the patient’s medical history.
