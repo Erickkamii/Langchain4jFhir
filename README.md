@@ -24,14 +24,42 @@ The system fetches the patient’s anamnesis using `PatientRepository`, parses t
 
 All endpoints use the LLM to process and respond based on the patient’s medical history.
 
-- `/analyze-medication-risk`: Summarizes the patient’s medication history and recommends safe treatment paths.
-- `/ask`: Lets the user ask questions about the patient’s medical profile (conditions, allergies) and suggests possible care strategies.
-- `/condition-history`: Summarizes known medical conditions and offers tailored recommendations.
-- `/receive-patient-data`: Ingests patient anamnesis for analysis.
+- `/patiant/ia/analyze-medication`: Summarizes the patient’s medication history and recommends safe treatment paths.
+- `/patient/ia/answer-question`: Lets the user ask questions about the patient’s medical profile (conditions, allergies) and suggests possible care strategies.
+- `/patient/ia/conditions-history`: Summarizes known medical conditions and offers tailored recommendations.
+- `/patient/info`: Ingests patient anamnesis for analysis.
 
 All endpoints are testable via Swagger UI.
 
 ![alt text](/img/endpoints.png)
+
+## Example response
+
+endpoint:
+`/patient/ia/answer-question`
+
+Patient/3
+Can a patient donate blood?
+
+Response:
+
+"Based on the patient's clinical data, a patient with Patient ID: Patient/3 cannot donate blood. The patient is currently taking Amoxicillin 250 MG / Clavulanate 125 MG Oral Tablet and has a history of viral sinusitis, acute viral pharyngitis, and streptococcal sore throat.
+
+Therefore, I cannot advise the patient to donate blood at this time due to the potential risks associated with their current medications and medical conditions. It is essential for the patient to consult their doctor before donating blood to discuss any concerns or modifications to their treatment plan."
+
+## Important Links
+
+[SQL IRIS PORTAL.]
+http://localhost:52774/csp/sys/exp/%CSP.UI.Portal.SQL.Home.zen?$NAMESPACE=FHIRSERVER
+
+[LLM ollama]
+http://localhost:11434/
+
+[ollama web ui chat]
+http://localhost:3000/
+
+[swagger-ui]
+http://localhost:8080/q/swagger-ui/
 
 ## Prerequisites
 
