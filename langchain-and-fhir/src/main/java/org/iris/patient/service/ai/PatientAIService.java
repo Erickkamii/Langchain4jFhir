@@ -44,10 +44,10 @@ public interface PatientAIService {
     """)
     @UserMessage("""
         Patient ID: {patientKey}
-
         Question: {question}
-
         Use tools to gather the patient's clinical data (e.g. previous diagnoses, medications, allergies, exams, etc.).
+        1. Use the tool `findMedicationTextByPatient` to list all medications the patient is currently using.
+        2. Use the tool `findConditionsByPatient` 'obtain clinical Conditions history' to list clinical Conditions.
         Based only on these facts, answer the question.
     """)
     String answerQuestion(@V("patientKey") String patientKey, @V("question") String question);
