@@ -103,4 +103,8 @@ Open Web UI for chatting with the LLM locally
 
 [Erick Murakami](http://www.linkedin.com/in/erick-murakami)
 
+[Erick Murakami - Intersystem Community link](https://community.intersystems.com/user/erick-hideki-murakami)
+
 [Davi Muta](https://www.linkedin.com/in/davi-massaru-teixeira-muta-003284191/)
+
+[Davi Muta - Intersystem Community link](https://community.intersystems.com/user/davi-massaru-teixeira-muta)
