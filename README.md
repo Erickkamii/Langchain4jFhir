@@ -72,3 +72,6 @@ Ollama with LLaMA 3.2 1B model
 Open Web UI for chatting with the LLM locally
 
 ## Thanks
+
+[Erick Murakami](http://www.linkedin.com/in/erick-murakami)
+[Davi Muta](https://www.linkedin.com/in/davi-massaru-teixeira-muta-003284191/)
