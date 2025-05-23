@@ -8,6 +8,7 @@ import org.iris.patient.model.Patient;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dev.langchain4j.agent.tool.Tool;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -23,11 +24,7 @@ public class PatientRepository implements PanacheRepository<Patient> {
     @Inject
     ObjectMapper mapper;
 
-    public String findNameByKey(String key) {
-        Patient patient = find("key", key).firstResult();
-        return patient != null ? patient.name : null;
-    }
-    
+    @Tool("obtain previous medications in use")
     @SuppressWarnings("unchecked")
     public List<String> findMedicationTextByPatient(String patientKey) {
         List<String> resourceJsonList = em.createNativeQuery("""

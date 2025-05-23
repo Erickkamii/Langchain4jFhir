@@ -3,6 +3,7 @@ package org.iris.patient.resource;
 import java.util.List;
 
 import org.iris.patient.repository.PatientRepository;
+import org.iris.patient.service.ai.PatientAIService;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
@@ -15,11 +16,13 @@ import jakarta.ws.rs.core.MediaType;
 public class PatientResource {
 
     @Inject
-    PatientRepository patientRepository;
+    PatientAIService patientAIService;
 
     @GET
+    @Path("/ia/analyze-medication")
     @Produces(MediaType.TEXT_PLAIN)
-    public List<String> getPatientNameByKey(@QueryParam("key") String key) {
-        return patientRepository.findMedicationTextByPatient(key);
+    public String analyzeMedicationRisks(@QueryParam("key") String key) {
+
+        return patientAIService.analyzeMedicationRisks(key);
     }
 }
