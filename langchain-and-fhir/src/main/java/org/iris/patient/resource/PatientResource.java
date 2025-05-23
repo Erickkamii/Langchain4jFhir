@@ -14,6 +14,7 @@ public class PatientResource {
 
     @Inject
     PatientRepository patientRepository;
+
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String getPatientNameByKey(@QueryParam("key") String key) {

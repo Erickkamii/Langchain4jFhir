@@ -7,16 +7,20 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import org.iris.ollama.client.OllamaAi;
 
+import io.smallrye.mutiny.Uni;
+import io.smallrye.mutiny.infrastructure.Infrastructure;
+
 @Path("/ollama")
 public class OllamaService {
-    
+
     @Inject
     OllamaAi ollamaAi;
-    
+
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public String getOllama() {
-        return ollamaAi.answerQuestion("Describe Quine-McCluskey algorithm.");
+    public Uni<String> getOllama() {
+        return Uni.createFrom()
+                .item(() -> ollamaAi.answerQuestion("Count 10000000 pi numbers"))
+                .runSubscriptionOn(Infrastructure.getDefaultWorkerPool());
     }
-    
 }
