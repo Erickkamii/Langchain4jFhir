@@ -61,6 +61,10 @@ http://localhost:3000/
 [swagger-ui]
 http://localhost:8080/q/swagger-ui/
 
+## Application
+
+[Video Application](https://www.youtube.com/watch?v=jEz9Utib5Wk)
+
 ## Prerequisites
 
 - Docker Desktop
